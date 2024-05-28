@@ -1,7 +1,7 @@
 import { AppShell, Flex, Text } from '@mantine/core'
 import LogoComponent from './components/Logo/LogoComponent'
 import TabsComponent from './components/Tabs/TabsComponent'
-import DropdownComponent from './components/Dropdown/DropdownComponent'
+import GenresComponent from './components/Dropdown/GenresComponent'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         </Flex>
       </AppShell.Navbar>
 
-      <AppShell.Main style={{ margin: '40px 90px' }}>
+      <AppShell.Main style={{ margin: '24px 90px' }}>
         <Text
           style={{
             color: '#000000',
@@ -35,7 +35,7 @@ function App() {
         >
           Movies
         </Text>
-        <DropdownComponent></DropdownComponent>
+        <GenresComponent></GenresComponent>
       </AppShell.Main>
     </AppShell>
   )
