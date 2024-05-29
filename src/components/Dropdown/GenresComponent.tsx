@@ -18,13 +18,22 @@ const options = {
   },
 }
 
-fetch(
+const genres = fetch(
   'https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name',
   options
 )
   .then((response) => response.json())
-  .then((response) => console.log(response))
-  .catch((err) => console.error(err))
+  .then((response) => console.log(Object.values(response[0])[0]))
+
+console.log(genres)
+
+// fetch(
+//   'https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name',
+//   options
+// )
+//   .then((response) => response.json())
+//   .then((response) => console.log(response))
+//   .catch((err) => console.error(err))
 
 function GenresComponent() {
   const combobox = useCombobox({
