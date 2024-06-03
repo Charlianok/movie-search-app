@@ -1,39 +1,6 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Input, InputBase, Combobox, useCombobox } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-
-const groceries = [
-  '🍎 Apples',
-  '🍌 Bananas',
-  '🥦 Broccoli',
-  '🥕 Carrots',
-  '🍫 Chocolate',
-]
-
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    'X-API-KEY': '6FKM32M-9KKMKM8-NRG7SG2-JS0XB2W',
-  },
-}
-
-const genres = fetch(
-  'https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name',
-  options
-)
-  .then((response) => response.json())
-  .then((response) => console.log(Object.values(response[0])[0]))
-
-console.log(genres)
-
-// fetch(
-//   'https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name',
-//   options
-// )
-//   .then((response) => response.json())
-//   .then((response) => console.log(response))
-//   .catch((err) => console.error(err))
 
 function GenresComponent() {
   const combobox = useCombobox({
@@ -41,8 +8,38 @@ function GenresComponent() {
   })
 
   const [value, setValue] = useState<string | null>(null)
+  const [genresList, setGenresList] = useState<any[]>([])
 
-  const options = groceries.map((item) => (
+  const fetchGenres = useCallback(async () => {
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        'X-API-KEY': '6FKM32M-9KKMKM8-NRG7SG2-JS0XB2W',
+      },
+    }
+
+    const response = await fetch(
+      'https://api.kinopoisk.dev/v1/movie/possible-values-by-field?field=genres.name',
+      options
+    )
+    const genresList = await response.json()
+
+    setGenresList(genresList)
+  }, [])
+
+  useEffect(() => {
+    fetchGenres()
+  }, [fetchGenres])
+
+  const genres = genresList
+    .map((item) => {
+      return item.name
+    })
+    .join(',')
+    .split(',')
+
+  const options = genres.map((item) => (
     <Combobox.Option value={item} key={item}>
       {item}
     </Combobox.Option>
